@@ -5,7 +5,8 @@
 
 (defdb db schema/db-spec)
 
-(defentity users)
+(defentity users
+  (has-many bids))
 
 (defn create-user [user]
   (insert users
@@ -22,3 +23,26 @@
   (first (select users
                  (where {:id id})
                  (limit 1))))
+
+(defn get-all-users [] (select users))
+
+(defentity bids
+  (belongs-to users {:fk :user_id}))
+
+(defn create-bid [bid]
+  (insert bids
+          (values bid)))
+
+(defn update-bid [id url offer ask]
+  (update users
+          (set-fields {:url url
+                       :offer offer
+                       :ask ask})
+          (where {:id id})))
+
+(defn get-bid [id]
+  (first (select bids
+                 (where {:id id})
+                 (limit 1))))
+
+(defn get-all-bids [] (select bids))

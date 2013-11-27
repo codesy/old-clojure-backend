@@ -10,5 +10,19 @@
     <div class="span8">
     {{content|safe}}
     </div>
+    <div class="span8">
+      <h2>Users</h2>
+      {% for user in users %}
+      <div>
+        <p>First name: {{user.first_name}}</p>
+        <p>Last name: {{user.last_name}}</p>
+        <p>Email: {{user.email}}</p>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="span8">
+      <h2>Bids</h2>
+      {{bids|default-if-empty:"Sad times. No bids."}}
+    </div>
  </div>
 {% endblock %}
