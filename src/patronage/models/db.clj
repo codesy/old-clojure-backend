@@ -1,10 +1,16 @@
-(ns patronage-clj.models.db
-  (:use korma.core
-        [korma.db :only (defdb)])
-  (:require [patronage-clj.models.schema :as schema]))
+(ns patronage.models.db
+  (:require [korma.core              :refer :all]
+            [korma.db                :refer [defdb]]
+            [patronage.models.schema :as    schema]))
 
 (defdb db schema/db-spec)
 
+(declare users)
+(declare bids)
+
+;; ===========================================================================
+;; Users
+;; ===========================================================================
 (defentity users
   (has-many bids))
 
@@ -26,6 +32,9 @@
 
 (defn get-all-users [] (select users))
 
+;; ===========================================================================
+;; Bids
+;; ===========================================================================
 (defentity bids
   (belongs-to users {:fk :user_id}))
 
