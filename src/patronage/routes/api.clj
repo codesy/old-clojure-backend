@@ -6,9 +6,13 @@
 
 (defresource bids
   :available-media-types ["application/json"]
-  :allowed-methods       [:get]
-  :handle-ok             (fn [_] (-> (db/get-all-bids)
-                                    (json/generate-string))))
+  :allowed-methods       [:get :post]
+  :handle-ok             (fn [ctx] (-> (db/get-all-bids)
+                                      json/generate-string))
+  :post!                 (fn [ctx] (db/create-bid
+                                   (-> (get-in ctx [:request :body])
+                                       slurp
+                                       json/parse-string))))
 
 (defroutes api-routes
-  (GET "/bids" [] bids))
+  (ANY "/bids" [] bids))
