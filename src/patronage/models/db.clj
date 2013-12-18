@@ -43,7 +43,7 @@
           (values bid)))
 
 (defn update-bid [id url offer ask]
-  (update users
+  (update bids
           (set-fields {:url url
                        :offer offer
                        :ask ask})
