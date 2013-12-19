@@ -4,14 +4,18 @@
             [liberator.core      :refer [defresource]]
             [patronage.models.db :as    db]))
 
-(defn list-bids [ctx]
-  (json/generate-string (db/get-all-bids)))
+(defn list-bids
+  []
+  (fn [ctx]
+    (json/generate-string (db/get-all-bids))))
 
-(defn create-bid [ctx]
-  (db/create-bid
-   (-> (get-in ctx [:request :body])
-       slurp
-       json/parse-string)))
+(defn create-bid
+  []
+  (fn [ctx]
+    (db/create-bid
+     (-> (get-in ctx [:request :body])
+         slurp
+         json/parse-string))))
 
 (defn show-bid
   [id]
@@ -34,8 +38,8 @@
 (defresource bids
   :available-media-types ["application/json"]
   :allowed-methods       [:get :post]
-  :handle-ok             list-bids
-  :post!                 create-bid)
+  :handle-ok             (list-bids)
+  :post!                 (create-bid))
 
 (defresource bid [id]
   :available-media-types ["application/json"]
