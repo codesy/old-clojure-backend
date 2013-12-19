@@ -4,50 +4,53 @@
             [liberator.core      :refer [defresource]]
             [patronage.models.db :as    db]))
 
-(defn list-bids
+(defn get-bids
   []
   (fn [ctx]
-    (json/generate-string (db/get-all-bids))))
+    (when-let [bids (db/get-all-bids)]
+      (json/generate-string bids))))
 
-(defn create-bid
+(defn post-bid
   []
   (fn [ctx]
-    (db/create-bid
-     (-> (get-in ctx [:request :body])
-         slurp
-         json/parse-string))))
+    (when-let [bid (-> (get-in ctx [:request :body])
+                       slurp
+                       json/parse-string)]
+      (db/create-bid bid))))
 
-(defn show-bid
+(defn get-bid
   [id]
   (fn [ctx]
-    (let [bid (db/get-bid id)]
-      (when-not (nil? bid)
-        {::bid (json/generate-string bid)}))))
+    (when-let [bid (db/get-bid id)]
+      {::bid (json/generate-string bid)})))
 
-(defn update-bid
+(defn put-bid
   [id]
   (fn [ctx]
-    (let [values (-> (get-in ctx [:request :body])
-                     slurp
-                     json/parse-string)]
-      (db/update-bid id
-                     (:url values)
-                     (:offer values)
-                     (:ask values)))))
+    (when-let [bid (-> (get-in ctx [:request :body])
+                       slurp
+                       json/parse-string)]
+      (db/update-bid id bid))))
+
+(defn delete-bid
+  [id]
+  (fn [ctx]
+    (db/delete-bid id)))
 
 (defresource bids
   :available-media-types ["application/json"]
   :allowed-methods       [:get :post]
-  :handle-ok             (list-bids)
-  :post!                 (create-bid))
+  :handle-ok             (get-bids)
+  :post!                 (post-bid))
 
 (defresource bid [id]
   :available-media-types ["application/json"]
-  :allowed-methods       [:get :put]
-  :exists?               (show-bid id)
+  :allowed-methods       [:get :put :delete]
+  :exists?               (get-bid id)
   :existed?              (fn [_] (not (nil? (db/get-bid id))))
   :handle-ok             ::bid
-  :put!                  (update-bid id))
+  :put!                  (put-bid id)
+  :delete!               (delete-bid id))
 
 (defroutes api-routes
   (ANY ["/bids/:id" :id #".*"] [id] (bid id))

@@ -4,6 +4,7 @@
                                                       routes]]
             [compojure.route                  :as    route]
             [environ.core                     :refer [env]]
+            [liberator.dev                    :refer [wrap-trace]]
             [patronage.routes.api             :refer [api-routes]]
             [ring.middleware.params           :refer [wrap-params]]
             [taoensso.timbre                  :as    timbre]))
@@ -36,4 +37,5 @@
 
 (def app-handler (-> (routes api-routes
                              app-routes)
-                     wrap-params))
+                     wrap-params
+                     (wrap-trace :header :ui)))

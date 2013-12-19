@@ -5,8 +5,7 @@
 
 (defdb db schema/db-spec)
 
-(declare users)
-(declare bids)
+(declare users bids)
 
 ;; ===========================================================================
 ;; Users
@@ -18,12 +17,11 @@
   (insert users
           (values user)))
 
-(defn update-user [id first-name last-name email]
-  (update users
-  (set-fields {:first_name first-name
-               :last_name last-name
-               :email email})
-  (where {:id id})))
+(defn update-user [id user]
+  (when-let [fields (into {} (filter (comp not nil? val) user))]
+    (update users
+            (set-fields fields)
+            (where {:id id}))))
 
 (defn get-user [id]
   (first (select users
@@ -42,12 +40,11 @@
   (insert bids
           (values bid)))
 
-(defn update-bid [id url offer ask]
-  (update bids
-          (set-fields {:url url
-                       :offer offer
-                       :ask ask})
-          (where {:id id})))
+(defn update-bid [id bid]
+  (when-let [fields (into {} (filter (comp not nil? val) bid))]
+    (update bids
+            (set-fields fields)
+            (where {:id id}))))
 
 (defn get-bid [id]
   (first (select bids
@@ -55,3 +52,6 @@
                  (limit 1))))
 
 (defn get-all-bids [] (select bids))
+
+(defn delete-bid [id]
+  (delete bids (where {:id id})))
