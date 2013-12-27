@@ -17,7 +17,7 @@
                  [ring-server               "0.3.1"]
 
                  ;; Routing
-                 [compojure "1.1.6"]
+                 [compojure                 "1.1.6"]
 
                  ;; Database
                  [korma                     "0.3.0-RC6"]
