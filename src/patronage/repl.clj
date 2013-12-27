@@ -1,9 +1,10 @@
 (ns patronage.repl
-  (:require [patronage.handler      :refer :all]
-            [ring.server.standalone :refer :all]
+  (:require [patronage.handler        :refer :all]
+            [patronage.models.logging :as logging]
+            [ring.server.standalone   :refer :all]
             [ring.middleware
-             [file                  :refer [wrap-file]]
-             [file-info             :refer [wrap-file-info]]]))
+             [file                    :refer [wrap-file]]
+             [file-info               :refer [wrap-file-info]]]))
 
 (defonce server (atom nil))
 
