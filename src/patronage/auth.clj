@@ -1,5 +1,6 @@
 (ns patronage.auth
-  (:require [environ.core           :refer [env]]
+  (:require [compojure.core         :refer :all]
+            [environ.core           :refer [env]]
             [friend-oauth2.workflow :as    oauth2]
             [friend-oauth2.util     :refer [format-config-uri
                                             get-access-token-from-params]]))
@@ -33,3 +34,7 @@
                    :uri-config           uri-config
                    :access-token-parsefn get-access-token-from-params
                    :config-auth          config-auth})]})
+
+(defroutes auth-routes
+  (friend/logout
+   (ANY "/logout" [request] (response/redirect "/"))))

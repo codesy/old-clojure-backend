@@ -12,8 +12,6 @@
 
 (defroutes app-routes
   (GET "/" [request] "codesy.io")
-  (friend/logout
-   (ANY "/logout" [request] (response/redirect "/")))
   ;; (route/resources "/")
   (route/not-found "Not Found"))
 
@@ -40,6 +38,7 @@
   (timbre/info "patronage is shutting down..."))
 
 (def app-handler (-> (routes api-routes
+                             auth-routes
                              app-routes)
                      (friend/authenticate github-workflow)
                      (wrap-trace :header :ui)
