@@ -28,6 +28,10 @@
                  ;; REST architecture
                  [liberator                 "0.10.0"]
 
+                 ;; Authentication/Authorization
+                 [com.cemerick/friend       "0.2.0"]
+                 [friend-oauth2             "0.1.1"]
+
                  ;; Logging
                  [log4j                     "1.2.17"
                   :exclusions [javax.mail/mail

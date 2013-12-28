@@ -1,5 +1,6 @@
 (ns patronage.routes.api
-  (:require [cheshire.core       :as    json]
+  (:require [cemerick.friend     :as    friend]
+            [cheshire.core       :as    json]
             [compojure.core      :refer :all]
             [liberator.core      :refer [defresource]]
             [patronage.models.db :as    db]))
@@ -55,5 +56,7 @@
   :delete!               (delete-bid! id))
 
 (defroutes api-routes
-  (ANY ["/bids/:id" :id #".*"] [id] (bid id))
-  (ANY "/bids" [] bids))
+  (ANY ["/bids/:id" :id #".*"] [id]
+       (friend/authorize #{:patronage.auth/user} (bid id)))
+  (ANY "/bids" []
+       (friend/authorize #{:patronage.auth/user} bids)))

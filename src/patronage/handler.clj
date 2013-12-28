@@ -1,16 +1,20 @@
 (ns patronage.handler
-  (:require [com.postspectacular.rotor        :as    rotor]
-            [compojure.core                   :refer [defroutes
-                                                      routes]]
-            [compojure.route                  :as    route]
-            [environ.core                     :refer [env]]
-            [liberator.dev                    :refer [wrap-trace]]
-            [patronage.routes.api             :refer [api-routes]]
-            [ring.middleware.params           :refer [wrap-params]]
-            [taoensso.timbre                  :as    timbre]))
+  (:require [cemerick.friend           :as    friend]
+            [com.postspectacular.rotor :as    rotor]
+            [compojure.core            :refer :all]
+            [compojure.handler         :as    handler]
+            [compojure.route           :as    route]
+            [liberator.dev             :refer [wrap-trace]]
+            [patronage.auth            :refer :all]
+            [patronage.routes.api      :refer [api-routes]]
+            [ring.util.response        :as    response]
+            [taoensso.timbre           :as    timbre]))
 
 (defroutes app-routes
-  (route/resources "/")
+  (GET "/" [request] "codesy.io")
+  (friend/logout
+   (ANY "/logout" [request] (response/redirect "/")))
+  ;; (route/resources "/")
   (route/not-found "Not Found"))
 
 (defn init
@@ -37,5 +41,6 @@
 
 (def app-handler (-> (routes api-routes
                              app-routes)
-                     wrap-params
-                     (wrap-trace :header :ui)))
+                     (friend/authenticate github-workflow)
+                     (wrap-trace :header :ui)
+                     handler/site))
