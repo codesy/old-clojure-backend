@@ -9,9 +9,12 @@
 You will need Java 6 or above installed.
 
 On Debian or Ubuntu:
-   $ apt-get install openjdk-6-jdk
+
+    $ apt-get install openjdk-6-jdk
+
 or
-   $ apt-get install openjdk-7-jdk
+
+    $ apt-get install openjdk-7-jdk
 
 ### Leiningen
 
