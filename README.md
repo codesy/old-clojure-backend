@@ -4,11 +4,53 @@
 
 ## Prerequisites
 
+### Java
+
+You will need Java 6 or above installed.
+
+On Debian or Ubuntu:
+   $ apt-get install openjdk-6-jdk
+or
+   $ apt-get install openjdk-7-jdk
+
+### Leiningen
+
 You will need [Leiningen][1] 2.0 or above installed.
+
+Clojure, unlike other programming languages, is not installed but
+pulled in as a project dependency. [Leiningen][1] is the de-facto
+Clojure build tool.
 
 [1]: https://github.com/technomancy/leiningen
 
-## Running
+## GitHub authentication
+
+`patronage` currently authenticates via GitHub OAuth2, so you will
+need to modify your profile and environment to redirect back to your
+local development instance.
+
+### [Register](https://github.com/settings/applications/new) your local development instance with GitHub
+
+   Application name: patronage-dev
+   Homepage URL: https://localhost:3443
+   Authorization callback URL: https://localhost:3443/auth/github
+
+### Set GitHub OAuth2 environment variables
+
+After registering your local development instance with GitHub, the
+application profile will have tokens for `Client ID` and `Client
+Secret`. The environment variables `GITHUB_OAUTH_CLIENT_ID` and
+`GITHUB_OAUTH_CLIENT_SECRET` can be set to these tokens:
+
+    $ export GITHUB_OAUTH_CLIENT_ID="<client_id>"
+    $ export GITHUB_OAUTH_CLIENT_SECRET="<client_secret>"
+
+Alternatively, they can also be saved in your Leiningen profile configuration at `$HOME/.lein/profiles.clj`:
+
+    {:user {:env {:github-oauth-client-id     "<client-id>"
+                  :github-oauth-client-secret "<client-secret>"}}}
+
+## Generate a local SSL certificate
 
 To generate a key pair and certificate for local development, run:
 
@@ -32,9 +74,11 @@ To generate a key pair and certificate for local development, run:
 
 The only mandatory response is to provide the fully qualified host name of the server at the "first and last name" prompt.
 
+## Running
+
 To start a web server for the application, run:
 
-    lein ring server
+    $ lein ring server
 
 ## License
 
