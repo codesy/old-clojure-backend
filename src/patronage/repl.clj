@@ -22,15 +22,22 @@
 
 (defn start-server
   "used for starting the server in development mode from REPL"
-  [& [port]]
-  (let [port (if port (Integer/parseInt port) 3000)]
+  [& [port ssl-port keystore key-password]]
+  (let [port         (if port     (Integer/parseInt port)     3000)
+        ssl-port     (if ssl-port (Integer/parseInt ssl-port) 3443)
+        keystore     (if keystore keystore "codesykeystore")
+        key-password (if key-password key-password "codesy")]
     (reset! server
             (serve (get-handler)
                    {:port         port
                     :init         init
                     :auto-reload? true
                     :destroy      destroy
-                    :join?        false}))
+                    :join?        false
+                    :ssl?         true
+                    :ssl-port     ssl-port
+                    :keystore     keystore
+                    :key-password key-password}))
     (println (str "You can view the site at http://localhost:" port))))
 
 (defn stop-server
