@@ -47,9 +47,12 @@
                  ;; Internationalization
                  [com.taoensso/tower        "2.0.1"]]
 
-  :ring {:handler patronage.handler/app
+  :ring {:handler patronage.handler/app-handler
          :init    patronage.handler/init
-         :destroy patronage.handler/destroy}
+         :destroy patronage.handler/destroy
+         :adapter {:ssl-port     3443
+                   :keystore     "codesykeystore"
+                   :key-password "codesy"}}
 
   :profiles {:production
              {:dependencies [[postgresql        "9.3-1100-jdbc41"]]
