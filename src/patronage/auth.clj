@@ -1,9 +1,11 @@
 (ns patronage.auth
-  (:require [compojure.core         :refer :all]
+  (:require [cemerick.friend        :as    friend]
+            [compojure.core         :refer :all]
             [environ.core           :refer [env]]
             [friend-oauth2.workflow :as    oauth2]
             [friend-oauth2.util     :refer [format-config-uri
-                                            get-access-token-from-params]]))
+                                            get-access-token-from-params]]
+            [ring.util.response     :as    response]))
 
 (def config-auth {:roles #{::user}})
 
