@@ -40,6 +40,7 @@
 (def app-handler (-> (routes api-routes
                              auth-routes
                              app-routes)
+                     (friend/requires-scheme :https)
                      (friend/authenticate github-workflow)
                      (wrap-trace :header :ui)
                      handler/site))
