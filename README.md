@@ -34,9 +34,9 @@ local development instance.
 
 ### [Register](https://github.com/settings/applications/new) your local development instance with GitHub
 
-   Application name: patronage-dev
-   Homepage URL: https://localhost:3443
-   Authorization callback URL: https://localhost:3443/auth/github
+    Application name: patronage-dev
+    Homepage URL: https://localhost:3443
+    Authorization callback URL: https://localhost:3443/auth/github
 
 ### Set GitHub OAuth2 environment variables
 
