@@ -41,6 +41,7 @@
                              auth-routes
                              app-routes)
                      (friend/requires-scheme :https)
-                     (friend/authenticate github-workflow)
+                     (friend/authenticate {:allow-anon? true
+                                           :workflows   [github-workflow]})
                      (wrap-trace :header :ui)
                      handler/site))

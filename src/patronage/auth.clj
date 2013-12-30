@@ -30,12 +30,11 @@
             :redirect_uri  (format-config-uri client-config)}}})
 
 (def github-workflow
-  {:allow-anon? true
-   :workflows   [(oauth2/workflow
-                  {:client-config        client-config
-                   :uri-config           uri-config
-                   :access-token-parsefn get-access-token-from-params
-                   :config-auth          config-auth})]})
+  (oauth2/workflow
+   {:client-config        client-config
+    :uri-config           uri-config
+    :access-token-parsefn get-access-token-from-params
+    :config-auth          config-auth}))
 
 (defroutes auth-routes
   (friend/logout
