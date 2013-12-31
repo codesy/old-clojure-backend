@@ -81,7 +81,9 @@ The only mandatory response is to provide the fully qualified host name of the s
 
 To start a web server for the application, run:
 
-    $ lein ring server
+    $ lein with-profile dev ring server-headless
+
+Open a web browser and point it to https://localhost:3443.
 
 ## License
 

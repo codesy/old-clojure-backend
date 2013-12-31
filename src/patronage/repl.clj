@@ -1,5 +1,6 @@
 (ns patronage.repl
-  (:require [patronage.handler        :refer :all]
+  (:require [liberator.dev             :refer [wrap-trace]]
+            [patronage.handler        :refer :all]
             [patronage.models.logging :as logging]
             [ring.server.standalone   :refer :all]
             [ring.middleware
@@ -15,10 +16,12 @@
   ;; having its own copy. When the root binding changes, the server
   ;; picks it up without having to restart.
   (-> #'app-handler
-    ; Makes static assets in $PROJECT_DIR/resources/public/ available.
+    ;; Makes static assets in $PROJECT_DIR/resources/public/ available.
     (wrap-file "resources")
-    ; Content-Type, Content-Length, and Last Modified headers for files in body
-    (wrap-file-info)))
+    ;; Content-Type, Content-Length, and Last Modified headers for files in body
+    (wrap-file-info)
+    ;; Liberator decision tree headers for debugging
+    (wrap-trace :header :ui)))
 
 (defn start-server
   "used for starting the server in development mode from REPL"

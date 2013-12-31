@@ -49,10 +49,7 @@
 
   :ring {:handler patronage.handler/app-handler
          :init    patronage.handler/init
-         :destroy patronage.handler/destroy
-         :adapter {:ssl-port     3443
-                   :keystore     "codesykeystore"
-                   :key-password "codesy"}}
+         :destroy patronage.handler/destroy}
 
   :profiles {:production
              {:dependencies [[postgresql        "9.3-1100-jdbc41"]]
@@ -64,7 +61,11 @@
              {:dependencies [[org.clojure/tools.trace "0.7.6"]
                              [ring-mock               "0.1.5"]
                              [ring/ring-devel         "1.2.1"]
-                             [com.h2database/h2       "1.3.174"]]}}
+                             [com.h2database/h2       "1.3.174"]]
+              :ring {:adapter {:ssl-port     3443
+                               :keystore     "codesykeystore"
+                               :key-password "codesy"}
+                     :nrepl   {:start?       true}}}}
 
   :plugins [[lein-ring      "0.8.8"]
             [lein-environ   "0.4.0"]]

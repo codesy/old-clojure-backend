@@ -4,7 +4,6 @@
             [compojure.core            :refer :all]
             [compojure.handler         :as    handler]
             [compojure.route           :as    route]
-            [liberator.dev             :refer [wrap-trace]]
             [patronage.auth            :refer :all]
             [patronage.routes.api      :refer [api-routes]]
             [ring.util.response        :as    response]
@@ -43,5 +42,4 @@
                      (friend/requires-scheme :https)
                      (friend/authenticate {:allow-anon? true
                                            :workflows   [github-workflow]})
-                     (wrap-trace :header :ui)
                      handler/site))
