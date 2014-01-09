@@ -52,7 +52,7 @@
          :destroy patronage.handler/destroy}
 
   :profiles {:production
-             {:dependencies [[postgresql        "9.3-1100-jdbc41"]]
+             {:dependencies [[org.postgresql/postgresql        "9.3-1100-jdbc41"]]
               :ring {:open-browser? false
                      :stacktraces?  false
                      :auto-reload?  false}}
