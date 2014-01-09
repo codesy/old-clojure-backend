@@ -39,7 +39,7 @@
 (def app-handler (-> (routes api-routes
                              auth-routes
                              app-routes)
-                     (friend/requires-scheme :https)
+                     (friend/requires-scheme-with-proxy :https)
                      (friend/authenticate {:allow-anon? true
                                            :workflows   [github-workflow]})
                      handler/site))
