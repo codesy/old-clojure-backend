@@ -5,6 +5,7 @@
             [compojure.handler         :as    handler]
             [compojure.route           :as    route]
             [patronage.auth            :refer :all]
+            [patronage.models.schema   :refer [create-tables]]
             [patronage.routes.api      :refer [api-routes]]
             [ring.util.response        :as    response]
             [taoensso.timbre           :as    timbre]))
@@ -28,6 +29,7 @@
                       {:path     "patronage.log"
                        :max-size (* 512 1024)
                        :backlog  10})
+  (create-tables)
   (timbre/info "patronage started successfully"))
 
 (defn destroy

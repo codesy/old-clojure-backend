@@ -22,9 +22,6 @@
                  ;; Database
                  [korma                     "0.3.0-RC6"]
 
-                 ;; JSON
-                 [cheshire                  "5.2.0"]
-
                  ;; REST architecture
                  [liberator                 "0.10.0"]
 
@@ -51,13 +48,23 @@
          :init    patronage.handler/init
          :destroy patronage.handler/destroy}
 
-  :profiles {:production
-             {:dependencies [[org.postgresql/postgresql        "9.3-1100-jdbc41"]]
+  :profiles {:dev
+             {:dependencies [[org.clojure/tools.trace   "0.7.6"]
+                             [ring-mock                 "0.1.5"]
+                             [ring/ring-devel           "1.2.1"]
+                             [com.h2database/h2       "1.3.174"]]
               :ring {:open-browser? false
-                     :stacktraces?  false
-                     :auto-reload?  false}}
+                     :nrepl {:start? true}}
+              :env {:db-spec "h2://localhost/site.db"}}
+;;                             {:classname   "org.h2.Driver"
+;;                              :subprotocol "h2"
+;;                              :subname     "site.db"
+;;                              :user        "sa"
+;;                              :password    ""
+;;                              :naming      {:keys clojure.string/lower-case
+;;                                            :fields clojure.string/upper-case}}}}
 
-             :dev
+             :dev-ssl
              {:dependencies [[org.clojure/tools.trace "0.7.6"]
                              [ring-mock               "0.1.5"]
                              [ring/ring-devel         "1.2.1"]
@@ -65,7 +72,23 @@
               :ring {:adapter {:ssl-port     3443
                                :keystore     "codesykeystore"
                                :key-password "codesy"}
-                     :nrepl   {:start?       true}}}}
+                     :nrepl   {:start?       true}}}
+
+             :dev-pg
+             {:dependencies [[org.clojure/tools.trace "0.7.6"]
+                             [ring-mock               "0.1.5"]
+                             [ring/ring-devel         "1.2.1"]
+                             [org.postgresql/postgresql "9.3-1100-jdbc41"]]
+              :ring {:open-browser? false
+                     :nrepl {:start? true}}}
+
+             :production
+             {:dependencies [[org.postgresql/postgresql        "9.3-1100-jdbc41"]]
+              :ring {:open-browser? false
+                     :stacktraces?  false
+                     :auto-reload?  false}}}
+
+
 
   :plugins [[lein-ring      "0.8.8"]
             [lein-environ   "0.4.0"]]

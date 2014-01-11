@@ -57,6 +57,6 @@
 
 (defroutes api-routes
   (ANY ["/bids/:id" :id #".*"] [id]
-       (friend/authenticated (bid id)))
+       (bid id))
   (ANY "/bids" []
-       (friend/authenticated bids)))
+       bids))

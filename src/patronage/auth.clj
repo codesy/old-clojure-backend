@@ -12,7 +12,7 @@
 (def client-config
   {:client-id     (env :github-oauth-client-id)
    :client-secret (env :github-oauth-client-secret)
-   :callback {:domain "https://localhost:3443" :path "/auth/github"}})
+   :callback {:domain "https://localhost:3443" :path "/auth/github"}}) ;; TODO factor this out into an envvar
 
 (def uri-config
   {:authentication-uri

@@ -17,11 +17,11 @@
                :offer 5.0
                :ask   50.0}]]
     (with-redefs [db/get-all-bids (fn [] bids)
-                  db/create-bid   (fn [bid] {::id 1})
+                  db/create-bid!  (fn [bid] {::id 1})
                   db/get-bid      (fn [id] (assoc bid :id 1))
-                  db/update-bid   (fn [id new-bid]
+                  db/update-bid!  (fn [id new-bid]
                                     (merge bid new-bid))
-                  db/delete-bid   (fn [id] nil)]
+                  db/delete-bid!  (fn [id] nil)]
       (testing "listing all bids"
         (let [response (-> (request :get "/bids")
                            api-routes)]

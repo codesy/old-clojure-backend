@@ -1,46 +1,35 @@
 (ns patronage.models.schema
-  (:require [clojure.java.jdbc :as sql]
-            [patronage.util    :as util]))
+  (:require [clojure.java.jdbc   :as    sql]
+            [environ.core        :refer [env]]
+            [korma.db            :refer :all ]
+            [patronage.util      :as    util]))
 
-(def db-store "site.db")
-
-(def db-spec {:classname   "org.h2.Driver"
-              :subprotocol "h2"
-              :subname     (str (util/resource-path) db-store)
-              :user        "sa"
-              :password    ""
-              :naming      {:keys clojure.string/lower-case
-                            :fields clojure.string/upper-case}})
-
-(defn initialized?
-  "checks to see if the database schema is present"
-  []
-  (.exists (new java.io.File (str (util/resource-path) db-store ".h2.db"))))
+(def db-spec (env :database-url))
 
 (defn create-users-table
   []
   (sql/with-connection db-spec
     (sql/create-table
-     :users
-     [:id                 "integer PRIMARY KEY AUTO_INCREMENT"]
-     [:first_name         "varchar(30)"]
-     [:last_name          "varchar(30)"]
-     [:email              "varchar(30)"]
-     [:admin              :boolean]
-     [:current_sign_in_at :time]
-     [:last_sign_in_at    :time]
-     [:password           "varchar(100)"])))
+       :users
+       [:id                 "serial PRIMARY KEY"]
+       [:first_name         "varchar(30)"]
+       [:last_name          "varchar(30)"]
+       [:email              "varchar(30)"]
+       [:admin              :boolean]
+       [:current_sign_in_at :time]
+       [:last_sign_in_at    :time]
+       [:password           "varchar(100)"])))
 
 (defn create-bids-table
   []
   (sql/with-connection db-spec
     (sql/create-table
-     :bids
-     [:id       "integer PRIMARY KEY AUTO_INCREMENT"]
-     [:url      "varchar(2000)"]
-     [:offer    "bigint"]
-     [:ask      "bigint"]
-     [:user_id "integer NOT NULL"])))
+       :bids
+       [:id       "serial PRIMARY KEY"]
+       [:url      "varchar(2000)"]
+       [:offer    "bigint"]
+       [:ask      "bigint"]
+       [:user_id "integer NOT NULL"])))
 
 (defn create-tables
   "creates the database tables used by the application"
