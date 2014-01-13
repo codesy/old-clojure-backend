@@ -1,7 +1,7 @@
 (ns patronage.repl
-  (:require [liberator.dev             :refer [wrap-trace]]
+  (:require [liberator.dev            :refer [wrap-trace]]
             [patronage.handler        :refer :all]
-            [patronage.models.logging :as logging]
+            [patronage.models.logging :as    logging]
             [ring.server.standalone   :refer :all]
             [ring.middleware
              [file                    :refer [wrap-file]]

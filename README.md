@@ -41,17 +41,20 @@ local development instance.
 ### Set GitHub OAuth2 environment variables
 
 After registering your local development instance with GitHub, the
-application profile will have tokens for `Client ID` and `Client
-Secret`. The environment variables `GITHUB_OAUTH_CLIENT_ID` and
-`GITHUB_OAUTH_CLIENT_SECRET` can be set to these tokens:
+application profile will have tokens for `Client ID`, `Client Secret`,
+and 'Authorization callback URL`. The environment variables
+`GITHUB_OAUTH_CLIENT_ID`, `GITHUB_OAUTH_CLIENT_SECRET`,
+`GITHUB_OAUTH_CALLBACK` can be set to these tokens:
 
     $ export GITHUB_OAUTH_CLIENT_ID="<client_id>"
     $ export GITHUB_OAUTH_CLIENT_SECRET="<client_secret>"
+    $ export GITHUB_OAUTH_CALLBACK="<callback>"
 
 Alternatively, they can also be saved in your Leiningen profile configuration at `$HOME/.lein/profiles.clj`:
 
     {:user {:env {:github-oauth-client-id     "<client-id>"
-                  :github-oauth-client-secret "<client-secret>"}}}
+                  :github-oauth-client-secret "<client-secret>"
+                  :github-oauth-callback      "<callback>"}}}
 
 ## Generate a local SSL certificate
 

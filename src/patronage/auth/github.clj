@@ -1,18 +1,35 @@
-(ns patronage.auth
+(ns patronage.auth.github
   (:require [cemerick.friend        :as    friend]
             [compojure.core         :refer :all]
             [environ.core           :refer [env]]
             [friend-oauth2.workflow :as    oauth2]
             [friend-oauth2.util     :refer [format-config-uri
                                             get-access-token-from-params]]
-            [ring.util.response     :as    response]))
+            [ring.util.response     :as    response]
+            [taoensso.timbre        :as    timbre])
+  (:import  (java.net MalformedURLException
+                      URL)))
 
 (def config-auth {:roles #{::user}})
 
+(defn github-oauth-client-id
+  []
+  (env :github-oauth-client-id))
+
+(defn github-oauth-client-secret
+  []
+  (env :github-oauth-client-secret))
+
+(defn github-oauth-callback
+  []
+  (if-let [url (URL. (env :github-oauth-callback))]
+    {:domain (str (.getProtocol url) "://" (.getHost url) ":" (.getPort url))
+     :path   (.getPath url)}))
+
 (def client-config
-  {:client-id     (env :github-oauth-client-id)
-   :client-secret (env :github-oauth-client-secret)
-   :callback {:domain "https://localhost:3443" :path "/auth/github"}}) ;; TODO factor this out into an envvar
+  {:client-id     (get-oauth-client-id)
+   :client-secret (get-oauth-client-secret)
+   :callback      (get-oauth-callback)})
 
 (def uri-config
   {:authentication-uri
