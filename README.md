@@ -26,6 +26,19 @@ Clojure build tool.
 
 [1]: https://github.com/technomancy/leiningen
 
+## Database configuration
+
+`patronage` configures its connection to PostgreSQL with the
+`DATABASE_URL` environment variable. This can be set to a valid JDBC
+URL connection string:
+
+    $ export DATABASE_URL="jdbc:postgresql://localhost/codesy?user=codesy"
+
+Alternatively, they can also be saved in your Leiningen profile
+configuration at `$HOME/.lein/profiles.clj`:
+
+    {:user {:env {:database-url "jdbc:postgresql://localhost/codesy?user=codesy"}}}
+
 ## GitHub authentication
 
 `patronage` currently authenticates via GitHub OAuth2, so you will
@@ -50,7 +63,8 @@ and 'Authorization callback URL`. The environment variables
     $ export GITHUB_OAUTH_CLIENT_SECRET="<client_secret>"
     $ export GITHUB_OAUTH_CALLBACK="<callback>"
 
-Alternatively, they can also be saved in your Leiningen profile configuration at `$HOME/.lein/profiles.clj`:
+Alternatively, they can also be saved in your Leiningen profile
+configuration at `$HOME/.lein/profiles.clj`:
 
     {:user {:env {:github-oauth-client-id     "<client-id>"
                   :github-oauth-client-secret "<client-secret>"
@@ -78,7 +92,8 @@ To generate a key pair and certificate for local development, run:
     Enter key password for <codesy>
             (RETURN if same as keystore password):  password
 
-The only mandatory response is to provide the fully qualified host name of the server at the "first and last name" prompt.
+The only mandatory response is to provide the fully qualified host
+name of the server at the "first and last name" prompt.
 
 ## Running
 
