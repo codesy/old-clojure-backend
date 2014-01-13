@@ -55,7 +55,7 @@ local development instance.
 
 After registering your local development instance with GitHub, the
 application profile will have tokens for `Client ID`, `Client Secret`,
-and 'Authorization callback URL`. The environment variables
+and `Authorization callback URL`. The environment variables
 `GITHUB_OAUTH_CLIENT_ID`, `GITHUB_OAUTH_CLIENT_SECRET`,
 `GITHUB_OAUTH_CALLBACK` can be set to these tokens:
 
