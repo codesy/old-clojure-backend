@@ -1,14 +1,16 @@
 (ns patronage.handler
-  (:require [cemerick.friend           :as    friend]
-            [com.postspectacular.rotor :as    rotor]
-            [compojure.core            :refer :all]
-            [compojure.handler         :as    handler]
-            [compojure.route           :as    route]
-            [patronage.auth            :refer :all]
-            [patronage.models.schema   :refer [create-tables]]
-            [patronage.routes.api      :refer [api-routes]]
-            [ring.util.response        :as    response]
-            [taoensso.timbre           :as    timbre]))
+  (:require [cemerick.friend             :as    friend]
+            [com.postspectacular.rotor   :as    rotor]
+            [compojure.core              :refer :all]
+            [compojure.handler           :as    handler]
+            [compojure.route             :as    route]
+            [patronage.auth              :refer :all]
+            [patronage.models.logging    :as    logging]
+            [patronage.models.migrations :as    migrations]
+            [patronage.routes.api        :refer [api-routes]]
+            [ragtime.core                :refer [migrate-all]]
+            [ring.util.response          :as    response]
+            [taoensso.timbre             :as    timbre]))
 
 (defroutes app-routes
   (GET "/" [request] "codesy.io")
@@ -29,7 +31,7 @@
                       {:path     "patronage.log"
                        :max-size (* 512 1024)
                        :backlog  10})
-  (create-tables)
+  (migrate-all migrations/db-spec migrations/all)
   (timbre/info "patronage started successfully"))
 
 (defn destroy

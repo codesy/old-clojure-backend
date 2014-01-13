@@ -21,6 +21,7 @@
 
                  ;; Database
                  [korma                     "0.3.0-RC6"]
+                 [ragtime                   "0.3.4"]
 
                  ;; REST architecture
                  [liberator                 "0.10.0"]
@@ -53,27 +54,27 @@
                              [ring-mock                 "0.1.5"]
                              [ring/ring-devel           "1.2.1"]
                              [org.postgresql/postgresql "9.3-1100-jdbc41"]]
-              :ring {:open-browser? false
-                     :nrepl         {:start? true}}}
+              :ring         {:open-browser? false
+                             :nrepl         {:start? true}}}
 
              :dev-ssl
              {:dependencies [[org.clojure/tools.trace   "0.7.6"]
                              [ring-mock                 "0.1.5"]
                              [ring/ring-devel           "1.2.1"]
                              [org.postgresql/postgresql "9.3-1100-jdbc41"]]
-              :ring {:adapter {:ssl-port     3443
-                               :keystore     "codesykeystore"
-                               :key-password "codesy"}
-                     :open-browser? false
-                     :nrepl         {:start? true}}}
+              :ring         {:adapter       {:ssl-port     3443
+                                             :keystore     "codesykeystore"
+                                             :key-password "codesy"}
+                             :open-browser? false
+                             :nrepl         {:start? true}}}
 
              :production
              {:dependencies [[org.postgresql/postgresql "9.3-1100-jdbc41"]]
-              :ring {:open-browser? false
-                     :stacktraces?  false
-                     :auto-reload?  false}}}
+              :ring         {:open-browser? false
+                             :stacktraces?  false
+                             :auto-reload?  false}}}
 
-  :plugins [[lein-ring      "0.8.8"]
-            [lein-environ   "0.4.0"]]
+  :plugins [[lein-ring    "0.8.8"]
+            [lein-environ "0.4.0"]]
 
   :min-lein-version "2.0.0")

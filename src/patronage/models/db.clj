@@ -1,9 +1,9 @@
 (ns patronage.models.db
-  (:require [korma.core              :refer :all]
-            [korma.db                :refer [defdb]]
-            [patronage.models.schema :as    schema]))
+  (:require [korma.core                  :refer :all]
+            [korma.db                    :refer [defdb]]
+            [patronage.models.migrations :refer [db-spec]]))
 
-(defdb db schema/db-spec)
+(defdb db db-spec)
 
 (declare users bids)
 
