@@ -10,8 +10,6 @@
   (:import  (java.net MalformedURLException
                       URL)))
 
-(def config-auth {:roles #{::user}})
-
 (defn github-oauth-client-id
   []
   (env :github-oauth-client-id))
@@ -23,13 +21,17 @@
 (defn github-oauth-callback
   []
   (if-let [url (URL. (env :github-oauth-callback))]
-    {:domain (str (.getProtocol url) "://" (.getHost url) ":" (.getPort url))
+    {:domain (str (.getProtocol url) "://" (.getHost url))
      :path   (.getPath url)}))
 
+(defn credential-fn
+  [token]
+  {:identity token :roles #{::user}})
+
 (def client-config
-  {:client-id     (get-oauth-client-id)
-   :client-secret (get-oauth-client-secret)
-   :callback      (get-oauth-callback)})
+  {:client-id     (github-oauth-client-id)
+   :client-secret (github-oauth-client-secret)
+   :callback      (github-oauth-callback)})
 
 (def uri-config
   {:authentication-uri
@@ -51,7 +53,7 @@
    {:client-config        client-config
     :uri-config           uri-config
     :access-token-parsefn get-access-token-from-params
-    :config-auth          config-auth}))
+    :credential-fn        credential-fn}))
 
 (defroutes auth-routes
   (friend/logout
