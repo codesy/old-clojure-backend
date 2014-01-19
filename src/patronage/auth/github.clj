@@ -7,8 +7,7 @@
                                             get-access-token-from-params]]
             [ring.util.response     :as    response]
             [taoensso.timbre        :as    timbre])
-  (:import  (java.net MalformedURLException
-                      URL)))
+  (:import  (java.net URL)))
 
 (defn github-oauth-client-id
   []
