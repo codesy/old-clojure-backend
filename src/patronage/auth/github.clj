@@ -7,10 +7,7 @@
                                             get-access-token-from-params]]
             [ring.util.response     :as    response]
             [taoensso.timbre        :as    timbre])
-  (:import  (java.net MalformedURLException
-                      URL)))
-
-(def config-auth {:roles #{::user}})
+  (:import  (java.net URL)))
 
 (defn github-oauth-client-id
   []
@@ -23,8 +20,12 @@
 (defn github-oauth-callback
   []
   (if-let [url (URL. (env :github-oauth-callback))]
-    {:domain (str (.getProtocol url) "://" (.getHost url) ":" (.getPort url))
+    {:domain (str (.getProtocol url) "://" (.getHost url))
      :path   (.getPath url)}))
+
+(defn credential-fn
+  [token]
+  {:identity token :roles #{::user}})
 
 (def client-config
   {:client-id     (github-oauth-client-id)
@@ -51,7 +52,7 @@
    {:client-config        client-config
     :uri-config           uri-config
     :access-token-parsefn get-access-token-from-params
-    :config-auth          config-auth}))
+    :credential-fn        credential-fn}))
 
 (defroutes auth-routes
   (friend/logout
