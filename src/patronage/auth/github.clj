@@ -27,9 +27,9 @@
      :path   (.getPath url)}))
 
 (def client-config
-  {:client-id     (get-oauth-client-id)
-   :client-secret (get-oauth-client-secret)
-   :callback      (get-oauth-callback)})
+  {:client-id     (github-oauth-client-id)
+   :client-secret (github-oauth-client-secret)
+   :callback      (github-oauth-callback)})
 
 (def uri-config
   {:authentication-uri
