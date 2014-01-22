@@ -1,10 +1,10 @@
-(ns patronage.auth-test
-  (:require [clojure.test      :refer [deftest
-                                       is
-                                       testing]]
-            [patronage.auth    :refer [auth-routes
-                                       github-workflow]]
-            [ring.mock.request :refer [request]]))
+(ns patronage.auth.github-test
+  (:require [clojure.test          :refer [deftest
+                                           is
+                                           testing]]
+            [patronage.auth.github :refer [auth-routes
+                                           github-workflow]]
+            [ring.mock.request     :refer [request]]))
 
 (deftest test-auth-handler
   (let [base-url "https://localhost:3443"]

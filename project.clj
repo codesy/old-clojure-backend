@@ -45,7 +45,7 @@
                  ;; Internationalization
                  [com.taoensso/tower        "2.0.1"]]
 
-  :ring {:handler patronage.handler/app-handler
+  :ring {:handler patronage.handler/auth-app-handler
          :init    patronage.handler/init
          :destroy patronage.handler/destroy}
 

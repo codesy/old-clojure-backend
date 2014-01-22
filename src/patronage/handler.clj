@@ -4,10 +4,10 @@
             [compojure.core              :refer :all]
             [compojure.handler           :as    handler]
             [compojure.route             :as    route]
-            [patronage.auth              :refer :all]
+            [patronage.auth.github       :refer :all]
             [patronage.models.logging    :as    logging]
             [patronage.models.migrations :as    migrations]
-            [patronage.routes.api        :refer [api-routes]]
+            [patronage.routes.api        :refer [api-v1-routes]]
             [ragtime.core                :refer [migrate-all]]
             [ring.util.response          :as    response]
             [taoensso.timbre             :as    timbre]))
@@ -40,10 +40,12 @@
   []
   (timbre/info "patronage is shutting down..."))
 
-(def app-handler (-> (routes api-routes
-                             auth-routes
+(def app-handler (-> (routes api-v1-routes
                              app-routes)
-                     (friend/requires-scheme-with-proxy :https)
-                     (friend/authenticate {:allow-anon? true
-                                           :workflows   [github-workflow]})
                      handler/site))
+
+(def auth-app-handler (-> app-handler
+                          (friend/requires-scheme-with-proxy :https)
+                          (friend/authenticate
+                           {:allow-anon? true
+                            :workflows   [github-workflow]})))
