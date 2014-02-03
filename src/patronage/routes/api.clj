@@ -62,4 +62,4 @@
        bids))
 
 (defroutes api-v1-routes
-  (context "/api/v1" [] (friend/authorize #{::user} api-routes)))
+  (context "/api/v1" [] (friend/authorize #{:patronage.auth.github/user} api-routes)))

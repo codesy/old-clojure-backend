@@ -42,11 +42,11 @@
   (timbre/info "patronage is shutting down..."))
 
 (def app-handler (-> (routes api-v1-routes
-                             app-routes)
-                     handler/site))
+                             app-routes)))
 
 (def auth-app-handler (-> app-handler
                           (friend/requires-scheme-with-proxy :https)
                           (friend/authenticate
                            {:allow-anon? true
-                            :workflows   [github-workflow]})))
+                            :workflows   [github-workflow]})
+                          handler/site))
